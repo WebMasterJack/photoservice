@@ -7,18 +7,18 @@
                     <div id="login-box" class="col-md-12">
                         
                             <div class="form-group">
-                                <label for="phone" class="text-info">Phone:</label><br>
-                                <input type="text" name="phone" id="phone" class="form-control" v-model="phone">
+                                <label for="phone" class="text-info">Login:</label><br>
+                                <input type="text" name="login" id="login" class="form-control" v-model="login">
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Password:</label><br>
                                 <input type="text" name="password" id="password" class="form-control" v-model="password">
                             </div>
                             <div class="form-group">
-                                <input type="submit" name="submit" class="btn btn-info btn-md" value="submit" v-on:click="submiter()">
+                                <input type="submit" name="submit" class="btn btn-info btn-md" value="submit" @click="submiter()">
                             </div>
                             <div id="register-link" class="text-right">
-                                <a href="#" class="text-info">Register here</a>
+                                <router-link to="/register">register</router-link>
                             </div>
                         
                     </div>
@@ -33,8 +33,9 @@ export default {
     data(){
         
         return{
-            phone:'',
-            password:''
+            login:'',
+            password:'',
+            token:'',
         }
         
 
@@ -44,23 +45,30 @@ export default {
              
         //       },
         async submiter(){
-let response = await fetch('http://cran/public/api/login', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  mode: 'no-cors',
-  body:JSON.stringify({
-  "phone": this.phone,
-  "password": this.password
-})
-  
-});
+            let data = {
+                login: this.login,
+                password: this.password,
+                token:this.token // sending the option which was selected from dropdown
+                
+            };
+          const response = await fetch("http://photoservice/public/api/login", {
+            method: "POST",
+            body:JSON.stringify(data),
+            headers: {'Content-Type': 'application/json'},
+            
+          });
+          if (response.ok) { // если HTTP-статус в диапазоне 200-299
+            // получаем тело ответа (см. про этот метод ниже)
+            let data = await response.json();
+            console.log(data); 
 
-let data = await response.json();
-console.log(data);
-//  this.$router.replace({ path: '/profile'});
+            let {login,password,token}=this;
+            token=data.token;
+            this.$router.replace({name:'Profile',params:{login,password,token}});
+          }
+        
         }
-    }
+    },
+    
 }
 </script>
