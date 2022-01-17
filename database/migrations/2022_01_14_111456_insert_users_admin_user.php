@@ -13,7 +13,7 @@ class InsertUsersAdminUser extends Migration
      */
     public function up()
     {
-        User::create(['login'=> 'admin', 'password'=>Hash::make('admin')]);
+        User::create(['login'=> 'admin', 'password'=>Hash::make('admin'),'first_name'=>'admin','surname'=>'admin']);
     }
 
     /**

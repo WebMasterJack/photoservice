@@ -18,9 +18,9 @@ class BearerToken
      */
     public function handle(Request $request, Closure $next)
     {
-        $token= Str::replaceFirst('Bearer','',$request->header('Authorization'));
+        $token= $request->bearerToken();
         foreach(User::all() as $user){
-            if(!Hash::check($token,$user->api_token)){
+            if($user->api_token==$token){
                 auth()->login($user);
             }
             if(!auth()->check()){
@@ -28,7 +28,9 @@ class BearerToken
                     'message'=> 'UnAuth'
                 ],401,'UnAuth');
             }
-        }
+            
+        } 
+       
 
         return $next($request);
     }

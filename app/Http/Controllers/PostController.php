@@ -8,18 +8,18 @@ use App\Models\Post;
 use Validator;
 use Hash;
 use Str;
+use Storage;
 use App\Http\Resources\PostResource;
 class PostController extends Controller
 {
     public function store(Request $request){
         $validator = Validator::make($request->all(),[
-            'title'=>'required|unique:posts',
-            'anons'=>'required',
-            'text'=>'required',
-            'image'=>'required|image|mimes:jpg,png|max:2048',
+            'image'=>'required|image|mimes:jpg,png|max:2048'
         ]);
+        //|| !Hash::check($request->api_token) 
         
-        if($validator->fails()){
+        if($validator->fails() ){
+            
             return resp([
                 'status'=>false,
                 'message'=>'NoAuth'
@@ -28,20 +28,13 @@ class PostController extends Controller
         $path=time().rand(0,99).'.png';
         $request->image->storeAs('public/post_images/',$path);
         $post = Post::create([
-            'title'=>$request->title,
-            'anons'=>$request->anons,
-            'text'=>$request->text,
-            'image'=>$path,
+            'image'=>$path
         ]);
-        if(!is_null($request->tags)){
-            $tags = explode(',',$request->tags);
-            foreach($tags as $tag){
-                $post->tags()->create(['name'=>$tag]);
-            }
-        }
+        
         return resp([
             'status'=>true,
-            'post_id'=>$post->id
+            'post_id'=>$post->id,
+            'url'=>asset($request->image->storeAs('public/post_images',$path))
         ],201,'Success creation');
     }
     public function update($id,Request $request){
@@ -61,29 +54,7 @@ class PostController extends Controller
                 'message'=>'Post not found'
             ],404,'Post not found');
         }
-        if(!is_null($request->title)){
-
-            if(!is_null(Post::where('title',$request->title)->first()) && $request->title != $post->title) {
-                return resp([
-                    'status'=>false,
-                    'message'=>['title' => 'This title alredy exists']
-                ],400,'Edditing error');
-            }
-            $post->title = $request->title;
-        }
-        if(!is_null($request->text)){
-            $post->text = $request->text;
-        }
-        if(!is_null($request->anons)){
-            $post->anons = $request->anons;
-        }
-        if(!is_null($request->tags)){
-           $post->tags()->delete();
-           $tags = explode(',',$request->tags);
-           foreach($tags as $tag){
-               $post->tags()->create(['name'=>$tag]);
-           }
-        }
+        
         if(!is_null($request->image)){
             Storage::delete('public/post_images'.$post->image);
 
@@ -120,7 +91,8 @@ class PostController extends Controller
         $post= Post::where('id',$id)->first();
         if(is_null($post)){
             return resp([
-                'message'=>'Post not found'
+                'message'=>'Post not found',
+                
             ],404,'Post not found');
         }
         return resp($post,200,'Post by ID');

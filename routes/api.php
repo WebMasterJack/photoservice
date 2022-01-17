@@ -17,11 +17,16 @@ use App\Http\Controllers\PostController;
 */
 
 Route::post('/login',[UserController::class,'login']);
-Route::get('/posts',[PostController::class,'all']);
-Route::get('/posts/{id}',[PostController::class,'byid']);
+Route::post('/signup',[UserController::class,'signup']);
+Route::get('/search',[UserController::class,'search']);
+
+Route::get('/photo',[PostController::class,'all']);
+
+Route::get('/photo/{id}',[PostController::class,'byid']);
 Route::middleware('bearer')->group(function(){
-    Route::post('/posts',[PostController::class,'store']);
-    Route::post('/posts/{id}',[PostController::class,'update']);
-    Route::delete('/posts/{id}',[PostController::class,'destroy']);
+    Route::post('/logout',[UserController::class,'logout']);
+    Route::post('/photo',[PostController::class,'store']);
+    Route::post('/photo/{id}',[PostController::class,'update']);
+    Route::delete('/photo/{id}',[PostController::class,'destroy']);
     
 });
