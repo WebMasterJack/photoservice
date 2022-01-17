@@ -23,14 +23,15 @@ class BearerToken
             if($user->api_token==$token){
                 auth()->login($user);
             }
-            if(!auth()->check()){
-                return resp([
-                    'message'=> 'UnAuth'
-                ],401,'UnAuth');
-            }
+
             
         } 
-       
+        if(!auth()->check()){
+                
+            return resp([
+                'message'=> 'UnAuthToken',
+            ],401,'UnAuth');
+        }
 
         return $next($request);
     }

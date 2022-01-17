@@ -22,7 +22,8 @@ class PostController extends Controller
             
             return resp([
                 'status'=>false,
-                'message'=>'NoAuth'
+                'message'=>'NoAuthController',
+                'error'=>$validator->errors()
             ],401,'Invalid Auth');
         }
         $path=time().rand(0,99).'.png';
@@ -34,7 +35,7 @@ class PostController extends Controller
         return resp([
             'status'=>true,
             'post_id'=>$post->id,
-            'url'=>asset($request->image->storeAs('public/post_images',$path))
+            'url'=>asset($request->image->storeAs('storage/post_images',$path))
         ],201,'Success creation');
     }
     public function update($id,Request $request){
@@ -68,7 +69,7 @@ class PostController extends Controller
         return resp([
             'status'=>true,
             'post'=>PostResource::make($post)
-        ],400,'Success creation');
+        ],200,'Success creation');
     }
     public function destroy($id){
         $post = Post::find($id);
