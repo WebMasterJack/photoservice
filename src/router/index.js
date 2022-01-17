@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
 import Register from '../views/Register.vue'
+import Photo from '../views/Photo.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,12 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register,
+    props:true
+  },
+  {
+    path: '/photo',
+    name: 'Photo',
+    component: Photo,
     props:true
   }
   
