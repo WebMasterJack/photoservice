@@ -18,12 +18,13 @@ use App\Http\Controllers\PostController;
 
 Route::post('/login',[UserController::class,'login']);
 Route::post('/signup',[UserController::class,'signup']);
-Route::get('/search',[UserController::class,'search']);
-
-Route::get('/photo',[PostController::class,'all']);
-
 Route::get('/photo/{id}',[PostController::class,'byid']);
+
+
+
 Route::middleware('bearer')->group(function(){
+    Route::get('/user',[UserController::class,'search']);
+    Route::get('/photo',[PostController::class,'all']);
     Route::post('/logout',[UserController::class,'logout']);
     Route::post('/photo',[PostController::class,'store']);
     Route::post('/photo/{id}',[PostController::class,'update']);

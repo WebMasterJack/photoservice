@@ -82,9 +82,20 @@ class PostController extends Controller
         $post->delete();
         return resp([
             'status'=>true,
-        ],400,'Success delete');
+        ],200,'Success delete');
     }
-    public function all(){
+    public function all(Request $request){
+        $user=User::where('api_token',$request->bearerToken())->first();
+        if($request->bearerToken() != $user->api_token ){
+            return resp([
+                'message'=>'Invalid tk'
+            ],401,'Invalid token');
+        }
+        if(is_null($request->bearerToken())){
+            return resp([
+                'message'=>'take token'
+            ],401,'take token');
+        }
         return resp(PostResource::collection(Post::all()),200,'List posts');
     }
     public function byid($id,Request $request){
