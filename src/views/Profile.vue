@@ -1,10 +1,22 @@
 <template>
   <div class="profile">
     <Info />
+
     <p>Ваш API token = {{user_token}}</p>
-    <div class="inputs d-flex justify-content-center ">
-      <input type="submit" class="btn btn-info btn-md" value="Фото" @click="photo()">
-    <input type="submit" name="submit" class="btn btn-info btn-md" value="Выйти" @click="logout()">
+    <div class="container">
+      <div class="inputs d-flex justify-content-center flex-column ">
+      <div class="form-group">
+        <input type="submit" class="btn btn-info btn-md w-50" value="Фото" @click="photo()">
+      </div>
+      <div class="form-group">
+        <input type="submit" class="btn btn-info btn-md w-50" value="Пользователи" @click="users()">
+      </div>
+      <div class="form-group">
+        
+        <input type="submit" name="submit" class="btn btn-info btn-md w-50" value="Выйти" @click="logout()">
+      </div>
+
+    </div>
     </div>
   </div>
 </template>
@@ -12,7 +24,6 @@
 <script>
 // @ is an alias to /src
 import Info from '@/components/Info.vue'
-
 export default {
   name: 'Profile',
   data(){
@@ -22,13 +33,18 @@ export default {
     }
   },
   components: {
-    Info
+    Info,
   },
   methods:{
     photo(){
       let token=this.user_token;
       
     this.$router.replace({name:'Photo',params:{token}});
+    },
+    users(){
+      let token=this.user_token;
+      
+    this.$router.replace({name:'Search',params:{token}});
     },
     async logout(){
        let data = {

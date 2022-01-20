@@ -4,9 +4,9 @@ import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
 import Register from '../views/Register.vue'
 import Photo from '../views/Photo.vue'
+import Search from '../views/Search.vue'
 
 Vue.use(VueRouter)
-
 const routes = [
   {
     path: '/',
@@ -15,7 +15,7 @@ const routes = [
     props:true
   },
   {
-    path: '/',
+    path: '/profile',
     name: 'Profile',
     component: Profile,
     props:true
@@ -31,7 +31,15 @@ const routes = [
     name: 'Photo',
     component: Photo,
     props:true
+  },
+  {
+    path: '/user',
+    name: 'Search',
+    component: Search,
+    props:true
   }
+ 
+
   
 ]
 

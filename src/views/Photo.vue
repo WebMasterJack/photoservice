@@ -1,11 +1,14 @@
 <template>
-  <div class="photo">
-    <PhotoSend />
-    <input type="submit" class="btn btn-info btn-md" value="send" @click="send">
-    <br>
-    <PhotoUpdate />
-    
-    <input type="submit" class="btn btn-info btn-md" value="edit" @click="edit">
+  <div class="photo d-flex flex-column w-50">
+    <div class="container">
+    <PhotoList :token=this.token />
+
+    <PhotoSend :token=this.token />
+   
+    <PhotoUpdate :token=this.token />
+
+    <PhotoDelete :token=this.token />
+    </div>
   </div>
 </template>
 
@@ -13,6 +16,9 @@
 // @ is an alias to /src
 import PhotoSend from '@/components/PhotoSend.vue'
 import PhotoUpdate from '@/components/PhotoUpdate.vue'
+import PhotoList from '@/components/PhotoList.vue'
+import PhotoDelete from '@/components/PhotoDelete.vue'
+
 
 export default {
   name: 'Photo',
@@ -23,49 +29,11 @@ return{
 }
 },
   components: {
-    PhotoSend,PhotoUpdate
+    PhotoSend,PhotoUpdate,PhotoList,PhotoDelete
   },
-  methods:{
-        send(){
-         
-  var input = document.querySelector('input[type="file"]')
-
-var formData = new FormData()
-formData.append('image', input.files[0])
-
-fetch('http://photoservice/public/api/photo', {
-  method: 'POST',
-  headers: {
-              'Accept': '*/*',
-              'Authorization': 'Bearer ' + this.token
-            
-            },
-  body: formData
-})
-.then(response => response.json())
-  .then(commits => console.log(commits));
-
-        },
-        edit(){
-var input = document.querySelector('input[name="edit"]')
-
-var formData = new FormData()
-formData.append('image', input.files[0]);
-let photo_id = document.querySelector("input[type=text]").value;
-
-fetch(`http://photoservice/public/api/photo/${photo_id}`, {
-  method: 'POST',
-  headers: {
-              'Accept': '*/*',
-              'Authorization': 'Bearer ' + this.token
-            
-            },
-  body: formData
-})
-.then(response => response.json())
-  .then(commits => console.log(commits.post));
-        }
-    },
+  
   props:["token"]
 }
+
 </script>
+

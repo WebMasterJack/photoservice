@@ -15,19 +15,22 @@
                                 <input type="text" name="password" id="password" class="form-control" v-model="password">
                             </div>
                             <div class="form-group">
-                                <input type="submit" name="submit" class="btn btn-info btn-md" value="submit" @click="submiter()">
+                                <input type="submit" name="submit" class="btn btn-info btn-md w-100" value="Войти" @click="submiter()">
                             </div>
                             <div id="register-link" class="text-right">
-                                <router-link to="/register">register</router-link>
+                                <router-link to="/register">Регистрация</router-link>
                             </div>
                         
                     </div>
                 </div>
             </div>
         </div>
+       <CheckToken :token=this.token /> 
     </div>
+    
 </template>
 <script>
+import CheckToken from '@/components/CheckToken.vue'
 export default {
     name:"Login",
     data(){
@@ -39,6 +42,9 @@ export default {
         }
         
 
+    },
+    comments:{
+       CheckToken
     },
     methods:{
         //   login(){
@@ -71,4 +77,5 @@ export default {
     },
     
 }
+
 </script>

@@ -17,10 +17,10 @@
                                 <input type="text" name="password" id="password" class="form-control" v-model="surname">
                             </div>
                             <div class="form-group">
-                                <input type="submit" name="submit" class="btn btn-info btn-md" value="submit" @click="register()">
+                                <input type="submit" name="submit" class="btn btn-info btn-md w-100" value="Зарегистрироваться" @click="register()">
                             </div>
                             <div id="register-link" class="text-right">
-                                <router-link to="/">Log In</router-link>
+                                <router-link to="/">Войти</router-link>
                             </div>
     </div>
 </template>

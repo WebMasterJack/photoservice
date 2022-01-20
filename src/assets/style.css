@@ -18,3 +18,13 @@
   #nav a.router-link-exact-active {
     color: #42b983;
   }
+  .photo,.users{
+    margin: 0 auto;
+  }
+  .users{
+    border: 1px #dee2e6 solid;
+    display: none;
+  }
+  .users table{
+    margin: 0;
+  }
