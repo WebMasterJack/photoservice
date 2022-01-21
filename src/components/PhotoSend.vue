@@ -14,6 +14,7 @@
       style="white-space: nowrap"
     >
       <template v-if="status">
+        <h2 class="text-center text-success">Добавлено</h2>
         <p>ID:{{ this.sendes.get("post_id") }}</p>
         <p>URL:{{ this.sendes.get("url") }}</p>
       </template>
